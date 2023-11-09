@@ -28,8 +28,8 @@ contract CharityHub {
         Campaign storage campaign = campaigns[noOfCampaigns];
 
         require(
-            campaign.deadline > block.timestamp,
-            "The deadline should not be now or in the past"
+            campaign.deadline < block.timestamp,
+            "The deadline should be a time in the future."
         );
 
         campaign.creator = _creator;

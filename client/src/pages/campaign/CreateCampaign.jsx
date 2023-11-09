@@ -4,10 +4,10 @@ import { ethers } from "ethers";
 import { money } from "../../assets";
 import { Button, FormField } from "../../components";
 import { checkIfImage } from "../../utils";
+import { useCustomContext } from "../../context";
 
 const CreateCampaign = () => {
   const navigate = useNavigate();
-
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -15,8 +15,10 @@ const CreateCampaign = () => {
     description: "",
     target: "",
     deadline: "",
-    image: "",
+    banner: "",
   });
+
+  const { createCampaign } = useCustomContext();
 
   const handleChange = (e) => {
     const { value, name } = e.target;
@@ -25,10 +27,25 @@ const CreateCampaign = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(formData);
+    checkIfImage(formData.banner, async (doesExist) => {
+      if (doesExist) {
+        setLoading(true);
+        await createCampaign({
+          ...formData,
+          target: ethers.utils.parseUnits(formData.target, 18),
+        });
+        setLoading(false);
+        // navigate("/");
+      } else {
+        alert("Provide a valid image url");
+        setFormData((prev) => {
+          return { ...prev, banner: "" };
+        });
+      }
+    });
   };
 
   return (
@@ -91,10 +108,10 @@ const CreateCampaign = () => {
           />
           <FormField
             type="url"
-            name="image"
+            name="banner"
             label="Campaign Banner *"
             placeholder="Place image URL of the campaign"
-            value={formData.image}
+            value={formData.banner}
             onChange={handleChange}
           />
         </div>
