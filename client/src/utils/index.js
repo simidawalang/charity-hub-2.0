@@ -14,7 +14,7 @@ export const checkIfImage = (url, callback) => {
   img.onerror = () => callback(false);
 };
 
-export const daysLeft = (deadline) => {
+export const noOfDaysRemaining = (deadline) => {
   const difference = new Date(deadline).getTime() - Date.now();
   const remainingDays = difference / (1000 * 3600 * 24);
 

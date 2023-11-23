@@ -1,9 +1,33 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import { useCustomContext } from "../context";
+import { CampaignsGrid } from "../components";
 
 const Profile = () => {
-  return (
-    <div>Profile</div>
-  )
-}
+  const [loading, setLoading] = useState(true);
+  const [campaigns, setCampaigns] = useState([]);
 
-export default Profile
+  const { address, contract, getCampaigns } = useCustomContext();
+
+  const fetchCampaigns = async () => {
+    setLoading(true);
+    const _campaigns = await getCampaigns();
+    setCampaigns(_campaigns);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    if (contract) fetchCampaigns();
+  }, [address, contract]);
+
+  return (
+    <>
+      <CampaignsGrid
+        title="All Campaigns"
+        loading={loading}
+        campaigns={campaigns}
+      />
+    </>
+  );
+};
+
+export default Profile;

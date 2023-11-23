@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { loader } from "../assets";
 import CampaignCard from "./CampaignCard";
 
@@ -9,10 +8,10 @@ const CampaignsGrid = ({ title, loading, campaigns }) => {
       <h1 className="text-[20px] font-semibold">
         {title} ({campaigns.length})
       </h1>
-      <div className="mt-[20px] flex flex-wrap">
+      <div className="mt-[20px] flex flex-wrap relative gap-6">
         {loading && (
           <img
-            className="w-[80px] h-[80px] objext-contain"
+            className="w-[80px] h-[80px] object-contain"
             src={loader}
             alt="loader"
           />
@@ -23,7 +22,7 @@ const CampaignsGrid = ({ title, loading, campaigns }) => {
 
         {!loading &&
           campaigns.length !== 0 &&
-          campaigns.map((c) => <CampaignCard id={c.id} {...c} />)}
+          campaigns.map((c) => <CampaignCard key={c.id} {...c} />)}
       </div>
     </div>
   );

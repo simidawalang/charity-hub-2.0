@@ -59,6 +59,13 @@ export const ContextProvider = ({ children }) => {
     return mappedCampaigns;
   };
 
+  const getMyCampaigns = async () => {
+    const allCampaigns = await getCampaigns();
+
+    const myCampaigns = allCampaigns.filter((c) => c.creator === address);
+    return myCampaigns;
+  };
+
   return (
     <Context.Provider
       value={{
@@ -66,6 +73,7 @@ export const ContextProvider = ({ children }) => {
         contract,
         connect,
         getCampaigns,
+        getMyCampaigns,
         createCampaign: publishCampaign,
       }}
     >

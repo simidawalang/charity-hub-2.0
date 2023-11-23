@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { Button } from "./";
-import { search, logo, menu, thirdweb } from "../assets";
+import { search,  menu } from "../assets";
 import { navlinks } from "../constants";
 import { useCustomContext } from "../context";
+import { BiUser } from "react-icons/bi";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ const Navbar = () => {
           />
         </div>
       </div>
-      <div className="sm:flex hidden justify-end gap-4">
+      <div className="sm:flex hidden justify-end gap-4 items-center">
         <Button
           type="button"
           className={address ? "bg-[#1dc071]" : "bg-[#8c6dfd]"}
@@ -42,6 +43,7 @@ const Navbar = () => {
             }
           }}
         />
+        <Link className="block" to="/profile"><BiUser color="#fff" size={30} /></Link>
       </div>
 
       {/* For small screens */}
