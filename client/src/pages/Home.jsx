@@ -12,7 +12,6 @@ const Home = () => {
     setLoading(true);
     const _campaigns = await getCampaigns();
     setCampaigns(_campaigns);
-    console.log(_campaigns)
     setLoading(false);
   };
 

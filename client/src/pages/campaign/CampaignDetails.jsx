@@ -8,12 +8,35 @@ import { loader } from "../../assets";
 
 const CampaignDetails = () => {
   const { state } = useLocation();
+  const { address, getDonations, donateToCampaign, contract } =
+    useCustomContext();
+
   const [loading, setLoading] = useState(false);
   const [amount, setAmount] = useState("");
   const [donators, setDonations] = useState([]);
 
   const noOfDaysLeft = noOfDaysRemaining(state.deadline);
-  console.log(state);
+
+  const fetchCampaignDonators = async () => {
+    const data = await getDonations(state.id);
+    console.log(data);
+    setDonations(data);
+  };
+
+  const handleDonate = async () => {
+    setLoading(true);
+
+    const d = await donateToCampaign(state.id, amount);
+    console.log(d);
+
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    if (contract) {
+      fetchCampaignDonators();
+    }
+  }, [contract, address]);
 
   return (
     <div>
@@ -46,7 +69,7 @@ const CampaignDetails = () => {
             title={`Raised of ${state.target}`}
             value={state.amountCollected}
           />
-          <CountBox title="No. of Donators" value={donators.length} />
+          <CountBox title="No. of Donators" value={donators?.length} />
         </div>
       </div>
 
@@ -76,9 +99,14 @@ const CampaignDetails = () => {
           </div>
           <div>
             <h4 className="font-semibold text-[18px] uppercase">Donators</h4>
-            <div className="mt-[20px] flex flex-col gap-4">
+            <div className="mt-[20px] flex flex-col gap-4 text-[#b2b3bd]">
               {donators.length > 0 ? (
-                donators.map((d, i) => <div key={i}>{d}</div>)
+                donators?.map((d, i) => (
+                  <div key={i} className="flex justify-between items-center">
+                    <p>{i + 1}. {d.donator}</p>
+                    <p>{d.amountDonated} ETH</p>
+                  </div>
+                ))
               ) : (
                 <p className="text-[16px] text-[#808191] leading-[26px] text-justify">
                   No donators yet, be the first one.
@@ -94,12 +122,18 @@ const CampaignDetails = () => {
               Donate to the campaign
             </p>
             <input
-              className="mt-[30px] w-full py-[10px] px-[15px] sm:px-[20px] outline-none border border-[#3a3a43] bg-transparent text-[18px] leading-[30px] placeholder:text-[#4b5264] rounded-[10px]"
+              className="mt-[30px] mb-[20px] w-full py-[10px] px-[15px] sm:px-[20px] outline-none border border-[#3a3a43] bg-transparent text-[18px] leading-[30px] placeholder:text-[#4b5264] rounded-[10px]"
               type="number"
               placeholder="0.01 ETH"
               step="0.01"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
+            />
+            <Button
+              type="button"
+              title="Donate"
+              className="bg-[#8c6dfd]"
+              onClick={handleDonate}
             />
           </div>
         </div>

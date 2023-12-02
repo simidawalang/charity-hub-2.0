@@ -23,7 +23,7 @@ const CampaignCard = ({
   };
   return (
     <div
-      className="bg-[#1c1c24] w-full w-[280px] rounded-[16px] cursor-pointer relative hover:translate-y-[-10px] duration-150 ease-in-out"
+      className="bg-[#1c1c24] w-full md:w-[280px] rounded-[16px] cursor-pointer relative hover:translate-y-[-10px] duration-150 ease-in-out"
       onClick={handleNavigate}
     >
       <img
