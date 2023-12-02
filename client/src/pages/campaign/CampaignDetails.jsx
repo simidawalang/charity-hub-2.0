@@ -27,8 +27,6 @@ const CampaignDetails = () => {
     setLoading(true);
 
     const d = await donateToCampaign(state.id, amount);
-    console.log(d);
-
     setLoading(false);
   };
 
@@ -37,6 +35,8 @@ const CampaignDetails = () => {
       fetchCampaignDonators();
     }
   }, [contract, address]);
+
+  console.log(state)
 
   return (
     <div>
