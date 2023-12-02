@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { Button, CountBox } from "../../components";
-import { ethers } from "ethers";
+import { Button, CountBox, Loader } from "../../components";
 import { useCustomContext } from "../../context";
 import { calculateBarPercentage, noOfDaysRemaining } from "../../utils";
 import { loader } from "../../assets";
@@ -36,17 +35,11 @@ const CampaignDetails = () => {
     }
   }, [contract, address]);
 
-  console.log(state)
+  console.log(state);
 
   return (
     <div>
-      {loading && (
-        <img
-          className="w-[80px] h-[80px] object-contain"
-          src={loader}
-          alt="loader"
-        />
-      )}
+      {loading && <Loader />}
       <div className="w-full flex flex-col md:flex-row mt-10 gap-[24px]">
         <div className="flex-1 flex-col">
           <img
@@ -103,7 +96,9 @@ const CampaignDetails = () => {
               {donators.length > 0 ? (
                 donators?.map((d, i) => (
                   <div key={i} className="flex justify-between items-center">
-                    <p>{i + 1}. {d.donator}</p>
+                    <p>
+                      {i + 1}. {d.donator}
+                    </p>
                     <p>{d.amountDonated} ETH</p>
                   </div>
                 ))
